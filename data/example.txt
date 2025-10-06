@@ -1,0 +1,2 @@
+This is a sample document for testing semantic embeddings.
+It contains a few sentences to verify that the Database class works correctly.
