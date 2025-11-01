@@ -14,7 +14,7 @@ def main():
 
     # Initialize database
     print("🔍 Loading documents from 'data/'...")
-    db = Database(folder_path=data_dir)
+    db = Database(data_dir=data_dir)
     docs = list(db.iter_documents())
 
     if not docs:

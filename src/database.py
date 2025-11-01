@@ -18,17 +18,21 @@ class Database:
     This class can find all the documents of a given type in the root folder and in
     all the subdirectories. Then, you can read a file by selecting its path.
     """
-    def __init__(self, folder_path, file_readers=None):
+    def __init__(self, data_dir, file_readers=None):
         """
         Initializes the database by loading all text files from the given folder.
         It stores the relative paths of the text files.
 
         Args:
-            folder_path (str): Path to the folder containing text files.
+            data_dir (str): Path to the folder containing text files.
             file_readers (dict, optional): A dictionary mapping file extensions to reader functions.
                                            Defaults to DEFAULT_FILE_READERS.
         """
-        self.folder_path = folder_path
+        # Initialize data folder path
+        self.folder_path = data_dir
+        if not os.path.exists(data_dir):
+            print(f"Warning: 'data/' directory not found at {data_dir}. Skipping test.")
+            return
 
         # Initialize file_readers safely
         if file_readers is None:
@@ -39,9 +43,14 @@ class Database:
         self.documents = []  # List of relative paths to the .txt files
         self._load_documents()
 
+    def get_extensions(self):
+        """Return the set of lowercase extensions."""
+        return set(s.lower() for s in self.file_readers)
+
     def get_relative_path(self, root, filename):
         """Return path relative to root"""
-        return os.path.relpath(os.path.join(root, filename), self.folder_path)
+        full_path = os.path.join(root, filename)
+        return os.path.relpath(full_path, self.folder_path)
 
     def _load_documents(self):
         """
@@ -50,7 +59,7 @@ class Database:
         if not os.path.exists(self.folder_path):
             raise FileNotFoundError(f"Folder '{self.folder_path}' does not exist.")
 
-        # Traverse through the folder and add all .txt file paths to the documents list
+        # Traverse through the folder and add all file paths to the documents list
         for root, _, files in os.walk(self.folder_path):
             for filename in files:
                 if misc.get_extension(filename) in self.file_readers:

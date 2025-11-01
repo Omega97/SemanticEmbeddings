@@ -14,7 +14,7 @@ class Embeddings:
 
     def __init__(
         self,
-        dir_path: str,
+        embeddings_dir: str,
         database: Database,
         embedding_model: EmbeddingModel,
         recompute_embeddings: bool = False
@@ -23,12 +23,12 @@ class Embeddings:
         Initialize the Embeddings manager.
 
         Args:
-            dir_path (str): Directory to store/load embedding files.
+            embeddings_dir (str): Directory to store/load embedding files.
             database (Database): Document source.
             embedding_model (EmbeddingModel): Model to generate embeddings.
             recompute_embeddings (bool): If True, ignores existing embeddings and recomputes all.
         """
-        self.dir_path = dir_path
+        self.embeddings_path = embeddings_dir
         self.database = database
         self.embedding_model = embedding_model
         self.recompute_embeddings = recompute_embeddings
@@ -41,11 +41,11 @@ class Embeddings:
     def get_data_file_name(self) -> str:
         """Generate a model-specific embedding filename."""
         model_name = self.embedding_model.model_name.replace("/", "_").replace("\\", "_")
-        return os.path.join(self.dir_path, f"_embeddings_{model_name}.npz")
+        return os.path.join(self.embeddings_path, f"_embeddings_by_{model_name}.npz")
 
     def _setup(self):
         """Ensure the embedding directory exists."""
-        os.makedirs(self.dir_path, exist_ok=True)
+        os.makedirs(self.embeddings_path, exist_ok=True)
         # Do NOT create an empty .npz file here — loading handles missing files gracefully.
 
     def _load_file_paths_from_database(self):

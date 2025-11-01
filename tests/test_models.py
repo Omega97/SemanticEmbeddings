@@ -7,7 +7,7 @@ def test_model(query):
 
     print('Computing Embedding...')
     query_emb = model.encode([query])[0]
-    print(query_emb)
+    print(f'Output shape = {query_emb.shape}')
 
 
 if __name__ == "__main__":
