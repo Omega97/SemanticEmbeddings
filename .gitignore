@@ -1,7 +1,7 @@
 # Project specific
-data/eval/
-data/plots/
-data/raw/
+data/
+embeddings/
+model_cache/
 semanticsearch.zip
 
 # Byte-compiled / optimized / DLL files
