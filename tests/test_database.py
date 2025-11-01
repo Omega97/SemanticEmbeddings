@@ -1,5 +1,8 @@
+""" semanticsearch/tests/test_database.py
+"""
 import os
 from src.database import Database
+from src import misc
 
 
 def test_load_txt_file():
@@ -7,12 +10,8 @@ def test_load_txt_file():
     # Assume there's a data/ folder at the project root
     data_dir = os.path.join(os.path.dirname(__file__), '..', 'data')
 
-    if not os.path.exists(data_dir):
-        print(f"Warning: 'data/' directory not found at {data_dir}. Skipping test.")
-        return
-
     # Initialize the database
-    db = Database(folder_path=data_dir)
+    db = Database(data_dir=data_dir)
 
     # List available documents
     docs = db.list_documents()
@@ -34,5 +33,21 @@ def test_load_txt_file():
         print(f"  - {doc['path']}: {len(doc['text'])} characters")
 
 
+def test_paths():
+    """Test loading a txt file from the data/ directory."""
+    data_dir = os.path.join(os.path.dirname(__file__), '..', 'data')
+
+    # Initialize the database
+    db = Database(data_dir=data_dir)
+
+    # search
+    for root, _, files in os.walk(db.folder_path):
+        for filename in files:
+            if misc.get_extension(filename) in db.get_extensions():
+                rel_path = db.get_relative_path(root, filename)
+                print(rel_path)
+
+
 if __name__ == "__main__":
-    test_load_txt_file()
+    # test_load_txt_file()
+    test_paths()
