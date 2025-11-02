@@ -7,11 +7,13 @@ from src.models import EmbeddingModel
 
 class Embeddings:
     """
-    Generate, store, and load document embeddings persistently.
-    Supports incremental updates: only embeds documents not already processed.
-    Embedding files are named based on the model to avoid cross-contamination.
-    """
+    Manages persistent storage and incremental updates of document embeddings.
 
+    Loads existing embeddings from disk (model-specific filename), identifies missing
+    documents, computes new embeddings only for those, and saves the full set back.
+    Embeddings are stored as a dictionary mapping relative file paths to vectors.
+    Supports extension, removal, retrieval, and conversion to a matrix format.
+    """
     def __init__(
         self,
         embeddings_dir: str,

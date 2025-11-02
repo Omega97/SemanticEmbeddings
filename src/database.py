@@ -15,8 +15,11 @@ DEFAULT_FILE_READERS = {'txt': misc.read_txt_file,
 
 class Database:
     """
-    This class can find all the documents of a given type in the root folder and in
-    all the subdirectories. Then, you can read a file by selecting its path.
+    Indexes and retrieves textual content from files in a directory tree.
+
+    Supports multiple file formats (e.g., .txt, .csv) via configurable reader functions.
+    Stores relative file paths and provides methods to list, iterate over, or fetch
+    document contents by path. Used as the data source for embedding generation.
     """
     def __init__(self, data_dir, file_readers=None):
         """

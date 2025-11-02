@@ -27,6 +27,13 @@ DEFAULT_CACHE_DIR = os.path.join(ROOT_DIR, '..', 'model_cache')
 
 
 class EmbeddingModel:
+    """
+    Wraps a SentenceTransformer model to generate normalized text embeddings.
+
+    Automatically caches downloaded models locally to avoid repeated downloads.
+    Supports loading from cache only or falling back to download if needed.
+    Default model: 'all-MiniLM-L6-v2' (384-dimensional embeddings).
+    """
     def __init__(self, model_name=DEFAULT_MODEL_NAME, use_cache_only=False):
         self.model_name = model_name
         self.use_cache_only = use_cache_only

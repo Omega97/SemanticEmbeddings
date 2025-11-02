@@ -53,8 +53,10 @@ def test_embeddings_recompute():
 
 
 def test_embeddings_similarity_matrix():
-    """Test embedding generation and visualize pairwise cosine similarity as a heatmap."""
-
+    """
+    Test embedding generation and visualize
+    pairwise cosine similarity as a heatmap.
+    """
     print("\n" + "=" * 60)
     print("TEST: EMBEDDING SIMILARITY MATRIX")
     print("=" * 60)
@@ -87,7 +89,9 @@ def test_embeddings_similarity_matrix():
         similarity_matrix,
         annot=True,
         fmt=".3f",
-        cmap="viridis",
+        cmap="bwr_r",
+        vmin=-1.,
+        vmax=+1.,
         xticklabels=[os.path.basename(n) for n in names],
         yticklabels=[os.path.basename(n) for n in names],
         cbar_kws={'label': 'Cosine Similarity'}
